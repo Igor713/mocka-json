@@ -1,17 +1,15 @@
 'use client'
 
-import { Button, Container, Typography } from '@mui/material'
+import { Container, Stack, Typography } from '@mui/material'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 export default function Home() {
   return (
     <Container sx={{ mt: 4 }}>
-      <Typography variant="h4" gutterBottom>
-        JSON Mock Generator
-      </Typography>
-
-      <Button variant="contained">
-        It works 🚀
-      </Button>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="h4">JSON Mock Generator</Typography>
+        <ThemeToggle />
+      </Stack>
     </Container>
   )
 }

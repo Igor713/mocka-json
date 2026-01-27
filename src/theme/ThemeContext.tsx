@@ -1,10 +1,13 @@
-import { ThemeProvider as MuiThemeProvider, createTheme } from "@mui/material"
-import { createContext, useContext, useEffect, useMemo, useState } from "react"
+'use client'
+
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { ThemeProvider as MuiThemeProvider, createTheme } from '@mui/material'
+import CssBaseline from '@mui/material/CssBaseline'
 
 type ThemeMode = 'light' | 'dark'
 
 interface ThemeContextProps {
-  mode: ThemeMode,
+  mode: ThemeMode
   toggleMode: () => void
 }
 
@@ -12,12 +15,14 @@ const ThemeContext = createContext<ThemeContextProps | undefined>(undefined)
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [mode, setMode] = useState<ThemeMode>('dark')
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     const savedMode = localStorage.getItem('theme-mode') as ThemeMode | null
     if (savedMode) {
       setMode(savedMode)
     }
+    setMounted(true)
   }, [])
 
   const toggleMode = () => {
@@ -33,34 +38,27 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       createTheme({
         palette: {
           mode,
-          primary: {
-            main: mode === 'dark' ? '#90caf9' : '#1976d2',
-          },
-          background: {
-            default: mode === 'dark' ? '#121212' : '#fafafa',
-            paper: mode === 'dark' ? '#1e1e1e' : '#fff',
-          },
-        },
-        shape: {
-          borderRadius: 8,
         },
       }),
     [mode],
   )
 
+  if (!mounted) return null
+
   return (
     <ThemeContext.Provider value={{ mode, toggleMode }}>
-      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   )
 }
 
 export function useThemeMode() {
   const context = useContext(ThemeContext)
-
   if (!context) {
     throw new Error('useThemeMode must be used within ThemeProvider')
   }
-
   return context
 }
