@@ -9,6 +9,8 @@ export type FieldType =
 export interface BaseField {
   type: FieldType;
   required?: boolean;
+  nullable?: boolean;
+  probability?: number;
 }
 
 export interface StringField extends BaseField {

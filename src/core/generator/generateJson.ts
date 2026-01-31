@@ -2,6 +2,20 @@ import { Field } from "../schema/types";
 import { randomNumber, randomString } from "./utils";
 
 export function generateJson(field: Field): any {
+  if (typeof field.probability === "number") {
+    const chance = field.probability / 100;
+
+    if (Math.random() > chance) {
+      return undefined;
+    }
+  }
+
+  if (field.nullable) {
+    if (Math.random() < 0.3) {
+      return null;
+    }
+  }
+
   switch (field.type) {
     case "string":
       return field.value ?? randomString(field.minLength, field.maxLength);

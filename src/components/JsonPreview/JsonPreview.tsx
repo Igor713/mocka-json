@@ -1,16 +1,16 @@
 'use client'
 
 import { Paper, IconButton, Tooltip, Box } from '@mui/material'
-import ContentCopyIcon from '@mui/icons-material/ContentCopy'
-import DownloadIcon from '@mui/icons-material/Download'
+import { ContentCopy, Download, Refresh } from '@mui/icons-material'
 
 interface Props {
   data: any
   onCopy: () => void
   onDownload: () => void
+  onRefresh: () => void
 }
 
-export function JsonPreview({ data, onCopy, onDownload }: Props) {
+export function JsonPreview({ data, onCopy, onDownload, onRefresh }: Props) {
   return (
     <Paper
       sx={{
@@ -23,15 +23,21 @@ export function JsonPreview({ data, onCopy, onDownload }: Props) {
       }}
     >
       <Box position="absolute" top={8} right={8}>
+        <Tooltip title="Atualizar JSON">
+          <IconButton onClick={onRefresh}>
+            <Refresh />
+          </IconButton>
+        </Tooltip>
+
         <Tooltip title="Copiar JSON">
           <IconButton onClick={onCopy}>
-            <ContentCopyIcon />
+            <ContentCopy />
           </IconButton>
         </Tooltip>
 
         <Tooltip title="Download .json">
           <IconButton onClick={onDownload}>
-            <DownloadIcon />
+            <Download />
           </IconButton>
         </Tooltip>
       </Box>

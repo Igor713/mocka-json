@@ -1,10 +1,9 @@
 'use client'
 
-import { Container, Stack, Typography, Button, Paper, Grid, Snackbar } from '@mui/material'
+import { Container, Stack, Typography, Button, Paper, Grid, Snackbar, TextField } from '@mui/material'
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle'
-import { userSchema } from '@/core/schema/example'
 import { generateJson } from '@/core/generator/generateJson'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { SchemaBuilder } from '@/components/SchemaBuilder/SchemaBuilder'
 import { JsonPreview } from '@/components/JsonPreview/JsonPreview'
 import { UIField } from '@/core/schema/uiTypes'
@@ -12,18 +11,33 @@ import { convertUIToSchema } from '@/core/schema/convert'
 
 export default function Home() {
   const [fields, setFields] = useState<UIField[]>([])
+  const [json, setJson] = useState<any>(null)
+  const [count, setCount] = useState(1)
+  const [open, setOpen] = useState(false)
 
   const schema = useMemo(
     () => convertUIToSchema(fields),
     [fields],
   )
 
-  const json = useMemo(
-    () => generateJson(schema),
-    [schema],
-  )
+  useEffect(() => {
+    setJson(generateJson(schema))
+  }, [schema])
 
-  const [open, setOpen] = useState(false)
+  const generate = () => {
+    if (count === 1) {
+      setJson(generateJson(schema))
+    } else {
+      setJson(
+        Array.from({ length: count }, () => generateJson(schema))
+      )
+    }
+  }
+
+  useEffect(() => {
+    generate()
+  }, [schema, count])
+
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(
@@ -46,6 +60,11 @@ export default function Home() {
     URL.revokeObjectURL(url)
   }
 
+  const handleRefresh = () => {
+    generate()
+  }
+
+
   return (
     <Container sx={{ mt: 4 }}>
       <Stack spacing={3}>
@@ -56,6 +75,20 @@ export default function Home() {
 
         <Grid container spacing={2} sx={{ height: '100vh', p: 2 }}>
           <Grid size={6}>
+            <TextField
+              label="Quantidade"
+              type="number"
+              size="small"
+              value={count}
+              slotProps={{
+                htmlInput: {
+                  minLength: 1,
+                  maxLength: 20,
+                },
+              }}
+              onChange={(e) => setCount(Number(e.target.value) || 1)}
+            />
+
             <SchemaBuilder
               fields={fields}
               setFields={setFields}
@@ -67,6 +100,7 @@ export default function Home() {
               data={json}
               onCopy={handleCopy}
               onDownload={handleDownload}
+              onRefresh={handleRefresh}
             />
 
             <Snackbar

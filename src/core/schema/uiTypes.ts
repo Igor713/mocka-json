@@ -6,6 +6,9 @@ export interface UIField {
   type: FieldType;
   required: boolean;
 
+  nullable?: boolean;
+  probability?: number;
+
   min?: number;
   max?: number;
   minLength?: number;
