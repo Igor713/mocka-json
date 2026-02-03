@@ -8,6 +8,7 @@ import { SchemaBuilder } from '@/components/SchemaBuilder/SchemaBuilder'
 import { JsonPreview } from '@/components/JsonPreview/JsonPreview'
 import { UIField } from '@/core/schema/uiTypes'
 import { convertUIToSchema } from '@/core/schema/convert'
+import { createRandom } from '@/core/generator/random'
 
 export default function Home() {
   const [fields, setFields] = useState<UIField[]>([])
@@ -15,24 +16,35 @@ export default function Home() {
   const [count, setCount] = useState(1)
   const [open, setOpen] = useState(false)
 
+  const [seed, setSeed] = useState(() =>
+    Math.floor(Math.random() * 1_000_000)
+  )
+
+  const random = useMemo(
+    () => createRandom(seed),
+    [seed],
+  )
+
   const schema = useMemo(
     () => convertUIToSchema(fields),
     [fields],
   )
 
   useEffect(() => {
-    setJson(generateJson(schema))
-  }, [schema])
+    setJson(generateJson(schema, random));
+  }, [schema, random]);
 
   const generate = () => {
     if (count === 1) {
-      setJson(generateJson(schema))
+      setJson(generateJson(schema, random));
     } else {
       setJson(
-        Array.from({ length: count }, () => generateJson(schema))
-      )
+        Array.from({ length: count }, () =>
+          generateJson(schema, random)
+        )
+      );
     }
-  }
+  };
 
   useEffect(() => {
     generate()
@@ -88,6 +100,22 @@ export default function Home() {
               }}
               onChange={(e) => setCount(Number(e.target.value) || 1)}
             />
+
+            <TextField
+              label="Seed"
+              size="small"
+              value={seed}
+
+              onChange={(e) =>
+                setSeed(Number(e.target.value) || 0)
+              }
+            />
+
+            <Button onClick={() =>
+              setSeed(Math.floor(Math.random() * 1_000_000))
+            }>
+              Random seed
+            </Button>
 
             <SchemaBuilder
               fields={fields}

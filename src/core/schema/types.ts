@@ -4,7 +4,15 @@ export type FieldType =
   | "boolean"
   | "date"
   | "object"
-  | "array";
+  | "array"
+  | "id";
+
+export type IdFormat = "number" | "uuid" | "alphanumeric";
+
+export interface IdField extends BaseField {
+  type: "id";
+  format: IdFormat;
+}
 
 export interface BaseField {
   type: FieldType;
@@ -48,10 +56,16 @@ export interface ArrayField extends BaseField {
   item: Field;
 }
 
+export interface Random {
+  int(min: number, max: number): number;
+  float(): number;
+}
+
 export type Field =
   | StringField
   | NumberField
   | BooleanField
   | DateField
   | ObjectField
-  | ArrayField;
+  | ArrayField
+  | IdField;
