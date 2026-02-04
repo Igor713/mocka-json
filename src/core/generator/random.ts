@@ -18,6 +18,10 @@ export function createRandom(seed: number): Random {
   };
 }
 
+export function generateNumericId(random: Random) {
+  return random.int(1, 1_000_000);
+}
+
 export function generateUUID(random: Random) {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = random.int(0, 15);

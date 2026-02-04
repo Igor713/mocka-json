@@ -1,24 +1,24 @@
 export type FieldType =
+  | "id"
   | "string"
   | "number"
   | "boolean"
   | "date"
   | "object"
-  | "array"
-  | "id";
-
-export type IdFormat = "number" | "uuid" | "alphanumeric";
-
-export interface IdField extends BaseField {
-  type: "id";
-  format: IdFormat;
-}
+  | "array";
 
 export interface BaseField {
   type: FieldType;
   required?: boolean;
   nullable?: boolean;
   probability?: number;
+}
+
+export type IdFormat = "number" | "uuid" | "alphanumeric";
+
+export interface IdField extends BaseField {
+  type: "id";
+  format: IdFormat;
 }
 
 export interface StringField extends BaseField {

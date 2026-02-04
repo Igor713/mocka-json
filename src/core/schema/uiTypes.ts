@@ -17,4 +17,6 @@ export interface UIField {
 
   length?: number;
   item?: UIField;
+
+  idFormat?: "number" | "uuid" | "alphanumeric";
 }

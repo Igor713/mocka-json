@@ -39,12 +39,12 @@ export function FieldOptions({ field, onChange }: Props) {
                 }
               />
             }
-            label="Nullable"
+            label="Pode ser null"
           />
 
           <Box>
             <Typography variant="caption">
-              Probability (%)
+              Probabilidade (%)
             </Typography>
 
             <Slider

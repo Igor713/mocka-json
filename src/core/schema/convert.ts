@@ -19,6 +19,15 @@ export function convertUIToSchema(fields: UIField[]): ObjectField {
 
 function convertField(ui: UIField): Field {
   switch (ui.type) {
+    case "id":
+      return {
+        type: "id",
+        required: ui.required,
+        nullable: ui.nullable,
+        probability: ui.probability,
+        format: ui.idFormat ?? "number",
+      };
+
     case "string":
       return {
         type: "string",

@@ -1,5 +1,9 @@
 import { Field, Random } from "../schema/types";
-import { generateAlphanumeric, generateUUID } from "./random";
+import {
+  generateAlphanumeric,
+  generateNumericId,
+  generateUUID,
+} from "./random";
 import { randomNumber } from "./randomNumber";
 import { randomString } from "./randomString";
 
@@ -19,6 +23,18 @@ export function generateJson(field: Field, random: Random): any {
   }
 
   switch (field.type) {
+    case "id":
+      switch (field.format) {
+        case "number":
+          return generateNumericId(random);
+
+        case "uuid":
+          return generateUUID(random);
+
+        case "alphanumeric":
+          return generateAlphanumeric(random);
+      }
+
     case "string":
       return (
         field.value ?? randomString(field.minLength, field.maxLength, random)
@@ -26,17 +42,6 @@ export function generateJson(field: Field, random: Random): any {
 
     case "number":
       return field.value ?? randomNumber(field.min, field.max, random);
-
-    case "id":
-      if (field.format === "number") {
-        return random.int(1, 1_000_000);
-      }
-
-      if (field.format === "uuid") {
-        return generateUUID(random);
-      }
-
-      return generateAlphanumeric(random);
 
     case "boolean":
       return field.value ?? random.float() < 0.5;

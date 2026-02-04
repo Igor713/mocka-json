@@ -9,12 +9,31 @@ export function renderTypeOptions(
   onChange: (field: UIField) => void
 ) {
   switch (field.type) {
+    case "id":
+      return (
+        <Box mb={2}>
+          <Select
+            size="small"
+            value={field.idFormat ?? "number"}
+            onChange={(e) =>
+              onChange({
+                ...field,
+                idFormat: e.target.value as "number" | "uuid" | "alphanumeric",
+              })
+            }
+          >
+            <MenuItem value="number">Número</MenuItem>
+            <MenuItem value="uuid">UUID</MenuItem>
+            <MenuItem value="alphanumeric">Alfanumérico</MenuItem>
+          </Select>
+        </Box>
+      );
+
     case 'string':
       return (
         <Box
           display={'flex'}
           gap={2}
-          ml={4}
           mb={2}
         >
           <TextField
@@ -44,7 +63,6 @@ export function renderTypeOptions(
         <Box
           display={'flex'}
           gap={2}
-          ml={4}
           mb={2}
         >
           <TextField
@@ -72,7 +90,6 @@ export function renderTypeOptions(
     case 'date':
       return (
         <Box
-          ml={4}
           mb={2}
         >
           <Select
@@ -93,7 +110,7 @@ export function renderTypeOptions(
 
     case 'array':
       return (
-        <Box ml={4} mb={2}>
+        <Box mb={2}>
           <TextField
             label="Length"
             type="number"
