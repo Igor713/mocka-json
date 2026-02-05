@@ -1,7 +1,7 @@
 
 'use client'
 
-import { Box, Button, Typography } from '@mui/material'
+import { Button, Grid, Typography } from '@mui/material'
 import { nanoid } from 'nanoid'
 import { UIField } from '@/core/schema/uiTypes'
 import { FieldRow } from './FieldRow'
@@ -25,12 +25,27 @@ export function SchemaBuilder({ fields, setFields }: Props) {
   }
 
   return (
-    <Box>
-      <Typography variant="h6">Schema Builder</Typography>
+    <Grid
+      id='schema-builder'
+      container
+      mt={2}
+    >
+      <Grid size={6}>
+        <Typography
+          variant="h6"
+        >
+          Schema Builder
+        </Typography>
+      </Grid>
 
-      <Button onClick={addField}>
-        Adicionar campo
-      </Button>
+      <Grid size={6}>
+        <Button
+          variant='contained'
+          onClick={addField}
+        >
+          Adicionar campo
+        </Button>
+      </Grid>
 
       {fields.map(field => (
         <FieldRow
@@ -50,7 +65,7 @@ export function SchemaBuilder({ fields, setFields }: Props) {
           }
         />
       ))}
-    </Box>
+    </Grid>
   )
 }
 

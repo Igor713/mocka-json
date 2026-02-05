@@ -1,6 +1,6 @@
 'use client'
 
-import { Container, Stack, Typography, Button, Paper, Grid, Snackbar, TextField } from '@mui/material'
+import { Container, Stack, Typography, Button, Paper, Grid, Snackbar, TextField, InputAdornment, Tooltip } from '@mui/material'
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle'
 import { generateJson } from '@/core/generator/generateJson'
 import { useEffect, useMemo, useState } from 'react'
@@ -9,6 +9,7 @@ import { JsonPreview } from '@/components/JsonPreview/JsonPreview'
 import { UIField } from '@/core/schema/uiTypes'
 import { convertUIToSchema } from '@/core/schema/convert'
 import { createRandom } from '@/core/generator/random'
+import { Refresh } from '@mui/icons-material'
 
 export default function Home() {
   const [fields, setFields] = useState<UIField[]>([])
@@ -85,37 +86,52 @@ export default function Home() {
           <ThemeToggle />
         </Stack>
 
-        <Grid container spacing={2} sx={{ height: '100vh', p: 2 }}>
+        <Grid container spacing={2} sx={{ height: '100vh' }}>
           <Grid size={6}>
-            <TextField
-              label="Quantidade"
-              type="number"
-              size="small"
-              value={count}
-              slotProps={{
-                htmlInput: {
-                  minLength: 1,
-                  maxLength: 20,
-                },
-              }}
-              onChange={(e) => setCount(Number(e.target.value) || 1)}
-            />
+            <Grid container spacing={2}>
+              <Grid size={6}>
+                <TextField
+                  label="Quantidade de JSONs"
+                  type="number"
+                  size="small"
+                  sx={{ width: '100%' }}
+                  value={count}
+                  slotProps={{
+                    htmlInput: {
+                      minLength: 1,
+                      maxLength: 20,
+                    },
+                  }}
+                  onChange={(e) => setCount(Number(e.target.value) || 1)}
+                />
+              </Grid>
 
-            <TextField
-              label="Seed"
-              size="small"
-              value={seed}
-
-              onChange={(e) =>
-                setSeed(Number(e.target.value) || 0)
-              }
-            />
-
-            <Button onClick={() =>
-              setSeed(Math.floor(Math.random() * 1_000_000))
-            }>
-              Random seed
-            </Button>
+              <Grid size={6}>
+                <TextField
+                  label="Seed"
+                  size="small"
+                  value={seed}
+                  sx={{ width: '100%' }}
+                  onChange={(e) =>
+                    setSeed(Number(e.target.value) || 0)
+                  }
+                  slotProps={{
+                    input: {
+                      endAdornment:
+                        <InputAdornment
+                          position='end'
+                          onClick={() => setSeed(Math.floor(Math.random() * 1_000_000))}
+                          sx={{ cursor: 'pointer' }}
+                        >
+                          <Tooltip title='Atualizar seed'>
+                            <Refresh />
+                          </Tooltip>
+                        </InputAdornment>
+                    }
+                  }}
+                />
+              </Grid>
+            </Grid>
 
             <SchemaBuilder
               fields={fields}

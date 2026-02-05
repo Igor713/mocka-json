@@ -27,39 +27,27 @@ export function FieldOptions({ field, onChange }: Props) {
         </Typography>
 
         <Stack spacing={1}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={field.nullable ?? false}
-                onChange={(e) =>
+          {!field.required && (
+            <Box>
+              <Typography variant="caption">
+                Probabilidade (%)
+              </Typography>
+
+              <Slider
+                value={field.probability ?? 100}
+                onChange={(_, value) =>
                   onChange({
                     ...field,
-                    nullable: e.target.checked,
+                    probability: value as number,
                   })
                 }
+                min={0}
+                max={100}
+                valueLabelDisplay="auto"
               />
-            }
-            label="Pode ser null"
-          />
+            </Box>
+          )}
 
-          <Box>
-            <Typography variant="caption">
-              Probabilidade (%)
-            </Typography>
-
-            <Slider
-              value={field.probability ?? 100}
-              onChange={(_, value) =>
-                onChange({
-                  ...field,
-                  probability: value as number,
-                })
-              }
-              min={0}
-              max={100}
-              valueLabelDisplay="auto"
-            />
-          </Box>
         </Stack>
       </Paper>
 
