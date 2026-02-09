@@ -1,6 +1,6 @@
 'use client'
 
-import { Container, Stack, Typography, Button, Paper, Grid, Snackbar, TextField, InputAdornment, Tooltip } from '@mui/material'
+import { Container, Stack, Typography, Grid, Snackbar, TextField, InputAdornment, Tooltip } from '@mui/material'
 import { ThemeToggle } from '@/components/ThemeToggle/ThemeToggle'
 import { generateJson } from '@/core/generator/generateJson'
 import { useEffect, useMemo, useState } from 'react'

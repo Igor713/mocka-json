@@ -29,6 +29,7 @@ export function SchemaBuilder({ fields, setFields }: Props) {
       id='schema-builder'
       container
       mt={2}
+      spacing={2}
     >
       <Grid size={6}>
         <Typography
