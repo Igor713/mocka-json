@@ -8,7 +8,6 @@ import {
   AccordionSummary,
   Box,
   Checkbox,
-  Divider,
   FormControlLabel,
   Grid,
   IconButton,
@@ -16,7 +15,8 @@ import {
   Select,
   TextField,
   Typography,
-  Chip
+  Chip,
+  Tooltip
 } from "@mui/material";
 import { FieldOptions } from "./FIeldOptions";
 
@@ -29,7 +29,22 @@ interface Props {
 export function FieldRow({ field, onChange, onRemove }: Props) {
   return (
     <>
-      <Accordion defaultExpanded sx={{ mt: 2 }}>
+      <Accordion
+        defaultExpanded
+        sx={{
+          position: 'relative',
+          mt: 2,
+          border: 'none',
+          '&::before': {
+            content: '""',
+            display: 'none'
+          },
+          borderRadius: '4px',
+          '&.MuiCollapse-root': {
+            visibility: 'visible',
+          },
+        }}
+      >
         <AccordionSummary expandIcon={<ExpandMore />}>
           <Box
             display="flex"
@@ -50,6 +65,29 @@ export function FieldRow({ field, onChange, onRemove }: Props) {
             </Box>
           </Box>
         </AccordionSummary>
+
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 7,
+            right: 50,
+            zIndex: 1,
+            display: 'inline-block'
+          }}
+        >
+          <Tooltip title='Deletar'>
+            <IconButton
+              size="small"
+              color="error"
+              onClick={(e) => {
+                e.stopPropagation()
+                onRemove()
+              }}
+            >
+              <Delete />
+            </IconButton>
+          </Tooltip>
+        </Box>
 
         <AccordionDetails>
           <Grid container spacing={2} sx={{ width: '100%' }}>
@@ -118,17 +156,6 @@ export function FieldRow({ field, onChange, onRemove }: Props) {
           </Grid>
         </AccordionDetails>
       </Accordion>
-
-      <IconButton
-        size="small"
-        color="error"
-        onClick={(e) => {
-          e.stopPropagation();
-          onRemove();
-        }}
-      >
-        <Delete />
-      </IconButton>
     </>
   )
 }
