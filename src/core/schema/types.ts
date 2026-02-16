@@ -1,11 +1,15 @@
 export type FieldType =
-  | "id"
   | "string"
   | "number"
   | "boolean"
   | "date"
   | "object"
-  | "array";
+  | "array"
+  | "id"
+  | "name"
+  | "email"
+  | "phone"
+  | "address";
 
 export interface BaseField {
   type: FieldType;
@@ -19,6 +23,25 @@ export type IdFormat = "number" | "uuid" | "alphanumeric";
 export interface IdField extends BaseField {
   type: "id";
   format: IdFormat;
+}
+
+type NameLocale = "pt-BR" | "en-US";
+
+export interface NameField extends BaseField {
+  type: "name";
+  locale?: NameLocale;
+}
+
+export interface EmailField extends BaseField {
+  type: "email";
+}
+
+export interface PhoneField extends BaseField {
+  type: "phone";
+}
+
+export interface AddressField extends BaseField {
+  type: "address";
 }
 
 export interface StringField extends BaseField {
@@ -62,10 +85,14 @@ export interface Random {
 }
 
 export type Field =
+  | IdField
+  | NameField
+  | EmailField
+  | PhoneField
+  | AddressField
   | StringField
   | NumberField
   | BooleanField
   | DateField
   | ObjectField
-  | ArrayField
-  | IdField;
+  | ArrayField;

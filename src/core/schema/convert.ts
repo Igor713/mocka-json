@@ -28,6 +28,38 @@ function convertField(ui: UIField): Field {
         format: ui.idFormat ?? "number",
       };
 
+    case "name":
+      return {
+        type: "name",
+        required: ui.required,
+        nullable: ui.nullable,
+        probability: ui.probability,
+      };
+
+    case "email":
+      return {
+        type: "email",
+        required: ui.required,
+        nullable: ui.nullable,
+        probability: ui.probability,
+      };
+
+    case "phone":
+      return {
+        type: "phone",
+        required: ui.required,
+        nullable: ui.nullable,
+        probability: ui.probability,
+      };
+
+    case "address":
+      return {
+        type: "address",
+        required: ui.required,
+        nullable: ui.nullable,
+        probability: ui.probability,
+      };
+
     case "string":
       return {
         type: "string",

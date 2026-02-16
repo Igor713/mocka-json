@@ -1,7 +1,11 @@
 import { Field, Random } from "../schema/types";
 import {
+  generateAddress,
   generateAlphanumeric,
+  generateEmail,
+  generateName,
   generateNumericId,
+  generatePhone,
   generateUUID,
 } from "./random";
 import { randomNumber } from "./randomNumber";
@@ -34,6 +38,18 @@ export function generateJson(field: Field, random: Random): any {
         case "alphanumeric":
           return generateAlphanumeric(random);
       }
+
+    case "name":
+      return generateName(random);
+
+    case "email":
+      return generateEmail(random);
+
+    case "phone":
+      return generatePhone(random);
+
+    case "address":
+      return generateAddress(random);
 
     case "string":
       return (

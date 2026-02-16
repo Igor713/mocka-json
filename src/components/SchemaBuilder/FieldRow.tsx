@@ -16,7 +16,8 @@ import {
   TextField,
   Typography,
   Chip,
-  Tooltip
+  Tooltip,
+  Divider
 } from "@mui/material";
 import { FieldOptions } from "./FIeldOptions";
 
@@ -69,7 +70,7 @@ export function FieldRow({ field, onChange, onRemove }: Props) {
         <Box
           sx={{
             position: 'absolute',
-            top: 7,
+            top: 12,
             right: 50,
             zIndex: 1,
             display: 'inline-block'
@@ -111,6 +112,9 @@ export function FieldRow({ field, onChange, onRemove }: Props) {
                   sx={{ width: '100%' }}
                   value={field.type}
                   onChange={(e) => onChange({ ...field, type: e.target.value as any })}
+                  MenuProps={{
+                    disableScrollLock: true,
+                  }}
                 >
                   <MenuItem value="id">ID</MenuItem>
                   <MenuItem value="string">String</MenuItem>
@@ -118,6 +122,13 @@ export function FieldRow({ field, onChange, onRemove }: Props) {
                   <MenuItem value="boolean">Boolean</MenuItem>
                   <MenuItem value="date">Date</MenuItem>
                   <MenuItem value="array">Array</MenuItem>
+
+                  <Divider />
+
+                  <MenuItem value="name">name</MenuItem>
+                  <MenuItem value="email">email</MenuItem>
+                  <MenuItem value="phone">phone</MenuItem>
+                  <MenuItem value="address">address</MenuItem>
                 </Select>
               </Grid>
 

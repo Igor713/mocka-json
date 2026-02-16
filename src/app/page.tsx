@@ -77,7 +77,6 @@ export default function Home() {
     generate()
   }
 
-
   return (
     <Container sx={{ mt: 4 }}>
       <Stack spacing={3}>
