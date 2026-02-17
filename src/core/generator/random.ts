@@ -1,21 +1,19 @@
 import { Random } from "../schema/types";
-import { randomString } from "./randomString";
+import { createFaker } from "./fakerInstance";
+import seedrandom from "seedrandom";
 
 export function createRandom(seed: number): Random {
-  let value = seed;
-
-  const next = () => {
-    value = (value * 16807) % 2147483647;
-    return value / 2147483647;
-  };
+  const rng = seedrandom(String(seed));
+  const faker = createFaker(seed);
 
   return {
-    float() {
-      return next();
-    },
     int(min: number, max: number) {
-      return Math.floor(next() * (max - min + 1)) + min;
+      return Math.floor(rng() * (max - min + 1)) + min;
     },
+    float() {
+      return rng();
+    },
+    faker,
   };
 }
 
@@ -40,23 +38,21 @@ export function generateAlphanumeric(random: Random, length = 12) {
   ).join("");
 }
 
-const FIRST_NAMES = ["João", "Maria", "Jéssica", "Lucas", "Pedro"];
-const LAST_NAMES = ["Silva", "Santos", "Oliveira", "Costa"];
-
-export function generateName(random: Random) {
-  return `${pick(FIRST_NAMES, random)} ${pick(LAST_NAMES, random)}`;
+export function generateName(random: Random): string {
+  return random.faker.person.fullName();
 }
 
-function pick<T>(arr: T[], random: Random) {
-  return arr[random.int(0, arr.length - 1)];
-}
+export function generateEmail(random: Random): string {
+  const firstName = random.faker.person.firstName();
+  const lastName = random.faker.person.lastName();
 
-export function generateEmail(random: Random) {
-  const user = randomString(5, 10, random);
-  const domains = ["gmail.com", "outlook.com", "hotmail.com"];
-  const domain = domains[random.int(0, domains.length - 1)];
-
-  return `${user}@${domain}`;
+  return random.faker.internet
+    .email({
+      firstName,
+      lastName,
+      provider: "gmail.com",
+    })
+    .toLowerCase();
 }
 
 export function generatePhone(random: Random) {
@@ -65,10 +61,10 @@ export function generatePhone(random: Random) {
 
 export function generateAddress(random: Random) {
   return {
-    street: `Rua ${randomString(5, 10, random)}`,
-    number: random.int(1, 9999),
-    city: "São Paulo",
-    state: "SP",
-    zip: `${random.int(10000, 99999)}-${random.int(100, 999)}`,
+    street: random.faker.location.street(),
+    number: random.faker.location.buildingNumber(),
+    city: random.faker.location.city(),
+    state: random.faker.location.state(),
+    zipCode: random.faker.location.zipCode("#####-###"),
   };
 }

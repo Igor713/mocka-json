@@ -1,3 +1,5 @@
+import { Faker } from "@faker-js/faker";
+
 export type FieldType =
   | "string"
   | "number"
@@ -82,6 +84,7 @@ export interface ArrayField extends BaseField {
 export interface Random {
   int(min: number, max: number): number;
   float(): number;
+  faker: Faker;
 }
 
 export type Field =
