@@ -32,16 +32,16 @@ export default function Home() {
   )
 
   useEffect(() => {
-    setJson(generateJson(schema, random));
+    setJson(generateJson(schema, random, {}));
   }, [schema, random]);
 
   const generate = () => {
     if (count === 1) {
-      setJson(generateJson(schema, random));
+      setJson(generateJson(schema, random, {}));
     } else {
       setJson(
         Array.from({ length: count }, () =>
-          generateJson(schema, random)
+          generateJson(schema, random, {})
         )
       );
     }

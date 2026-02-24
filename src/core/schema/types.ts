@@ -87,6 +87,20 @@ export interface Random {
   faker: Faker;
 }
 
+export interface GenerationContext {
+  person?: {
+    firstName: string;
+    lastName: string;
+    fullName: string;
+  };
+}
+
+export interface ObjectProperty {
+  name: string;
+  field: Field;
+  required?: boolean;
+}
+
 export type Field =
   | IdField
   | NameField

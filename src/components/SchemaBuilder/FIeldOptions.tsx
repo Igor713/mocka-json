@@ -3,8 +3,6 @@
 import { UIField } from "@/core/schema/uiTypes"
 import {
   Box,
-  Checkbox,
-  FormControlLabel,
   Slider,
   Typography,
   Stack,
@@ -20,9 +18,9 @@ interface Props {
 
 export function FieldOptions({ field, onChange }: Props) {
   return (
-    <Grid container spacing={2} sx={{ width: '100%' }}>
+    <Grid id="#field-options" container spacing={2} sx={{ width: '100%' }}>
       {!field.required && (
-        <Grid size={6}>
+        <Grid size={12}>
           <Paper variant="outlined" sx={{ p: 2, height: '100%' }}>
             <Typography variant="subtitle2" gutterBottom>
               Regras do campo
@@ -52,7 +50,7 @@ export function FieldOptions({ field, onChange }: Props) {
         </Grid>
       )}
 
-      <Grid size={6}>
+      <Grid size={12}>
         <Paper variant="outlined" sx={{ p: 2, height: '100%' }}>
           <Typography variant="subtitle2" gutterBottom>
             Opções do tipo ({field.type})

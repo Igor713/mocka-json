@@ -151,7 +151,7 @@ export function FieldRow({ field, onChange, onRemove }: Props) {
                       ...field,
                       nullable: e.target.checked,
                     })} />}
-                  label="Pode ser null" />
+                  label="Pode ser nulo" />
               </Grid>
             </Grid>
 

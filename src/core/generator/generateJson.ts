@@ -1,4 +1,4 @@
-import { Field, Random } from "../schema/types";
+import { Field, GenerationContext, Random } from "../schema/types";
 import {
   generateAddress,
   generateAlphanumeric,
@@ -11,7 +11,11 @@ import {
 import { randomNumber } from "./randomNumber";
 import { randomString } from "./randomString";
 
-export function generateJson(field: Field, random: Random): any {
+export function generateJson(
+  field: Field,
+  random: Random,
+  ctx: GenerationContext = {},
+): any {
   if (typeof field.probability === "number") {
     const chance = field.probability / 100;
 
@@ -40,10 +44,10 @@ export function generateJson(field: Field, random: Random): any {
       }
 
     case "name":
-      return generateName(random);
+      return generateName(random, ctx);
 
     case "email":
-      return generateEmail(random);
+      return generateEmail(random, ctx);
 
     case "phone":
       return generatePhone(random);
@@ -69,11 +73,11 @@ export function generateJson(field: Field, random: Random): any {
 
     case "object": {
       const result: Record<string, any> = {};
+      const localCtx: GenerationContext = {};
 
       for (const key in field.fields) {
         const child = field.fields[key];
-        if (!child.required && Math.random() < 0.5) continue;
-        result[key] = generateJson(child, random);
+        result[key] = generateJson(child, random, localCtx);
       }
 
       return result;
@@ -81,7 +85,7 @@ export function generateJson(field: Field, random: Random): any {
 
     case "array":
       return Array.from({ length: field.length ?? 1 }).map(() => {
-        return generateJson(field.item, random);
+        return generateJson(field.item, random, {});
       });
 
     default:

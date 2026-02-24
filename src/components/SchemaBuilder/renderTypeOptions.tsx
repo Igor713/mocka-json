@@ -1,5 +1,5 @@
 import { UIField } from "@/core/schema/uiTypes"
-import { Box, TextField, Select, MenuItem, Typography, Button } from "@mui/material"
+import { Box, TextField, Select, MenuItem, Typography, Button, Checkbox, FormControlLabel } from "@mui/material"
 import { FieldRow } from "./FieldRow"
 import { nanoid } from 'nanoid'
 
@@ -11,7 +11,7 @@ export function renderTypeOptions(
   switch (field.type) {
     case "id":
       return (
-        <Box mb={2}>
+        <Box>
           <Select
             size="small"
             value={field.idFormat ?? "number"}
@@ -21,6 +21,7 @@ export function renderTypeOptions(
                 idFormat: e.target.value as "number" | "uuid" | "alphanumeric",
               })
             }
+            sx={{ width: '100%' }}
           >
             <MenuItem value="number">Número</MenuItem>
             <MenuItem value="uuid">UUID</MenuItem>
@@ -34,10 +35,9 @@ export function renderTypeOptions(
         <Box
           display={'flex'}
           gap={2}
-          mb={2}
         >
           <TextField
-            label='Min length'
+            label='Tamanho min'
             type="number"
             size="small"
             value={field.minLength ?? ''}
@@ -47,7 +47,7 @@ export function renderTypeOptions(
           />
 
           <TextField
-            label='Max length'
+            label='Tamanho max'
             type="number"
             size="small"
             value={field.maxLength ?? ''}
@@ -63,7 +63,7 @@ export function renderTypeOptions(
         <Box
           display={'flex'}
           gap={2}
-          mb={2}
+
         >
           <TextField
             label='Min'
@@ -89,9 +89,7 @@ export function renderTypeOptions(
 
     case 'date':
       return (
-        <Box
-          mb={2}
-        >
+        <Box>
           <Select
             size="small"
             value={field.format ?? 'iso'}
@@ -110,7 +108,7 @@ export function renderTypeOptions(
 
     case 'array':
       return (
-        <Box mb={2}>
+        <Box >
           <TextField
             label="Length"
             type="number"

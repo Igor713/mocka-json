@@ -1,4 +1,4 @@
-import { Random } from "../schema/types";
+import { Field, GenerationContext, Random } from "../schema/types";
 import { createFaker } from "./fakerInstance";
 import seedrandom from "seedrandom";
 
@@ -38,21 +38,30 @@ export function generateAlphanumeric(random: Random, length = 12) {
   ).join("");
 }
 
-export function generateName(random: Random): string {
-  return random.faker.person.fullName();
-}
-
-export function generateEmail(random: Random): string {
+export function generateName(random: Random, ctx: GenerationContext): string {
   const firstName = random.faker.person.firstName();
   const lastName = random.faker.person.lastName();
 
-  return random.faker.internet
-    .email({
-      firstName,
-      lastName,
-      provider: "gmail.com",
-    })
-    .toLowerCase();
+  ctx.person = {
+    firstName,
+    lastName,
+    fullName: `${firstName} ${lastName}`,
+  };
+
+  return ctx.person.fullName;
+}
+
+export function generateEmail(random: Random, ctx: GenerationContext): string {
+  if (ctx.person) {
+    return random.faker.internet
+      .email({
+        firstName: ctx.person.firstName,
+        lastName: ctx.person.lastName,
+      })
+      .toLowerCase();
+  }
+
+  return random.faker.internet.email().toLowerCase();
 }
 
 export function generatePhone(random: Random) {
